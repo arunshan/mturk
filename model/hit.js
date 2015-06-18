@@ -271,7 +271,7 @@ module.exports = function(config) {
   ret.getReviewable = function(options, callback) {
     if (! options) options = {};
     var requestOptions = {
-        HitTypeId    : options.hitTypeId
+        HITTypeId    : options.hitTypeId
       , Status       : options.status
       , SortDirection: options.sortDirection
       , PageSize     : options.pageSize
