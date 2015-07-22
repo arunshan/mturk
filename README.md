@@ -1,4 +1,4 @@
-### WARNING:  This repo is currently not being maintainted.
+### WARNING:  This repo is currently not being maintained.
 
 # Intro
 
