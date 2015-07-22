@@ -1,3 +1,5 @@
+### WARNING:  This repo is currently not being maintainted.
+
 # Intro
 
 Amazon Mechanical Turk API wrapper for Node.
