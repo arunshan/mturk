@@ -132,7 +132,8 @@ module.exports = function(config) {
 
       if (! HIT.prototype.nodeExists(['DisposeHITResult', 'Request', 'IsValid'], response)) { callback([new Error('No "DisposeHITResult > Request > IsValid" node on the response')]); return; }
       if (response.DisposeHITResult.Request.IsValid.toLowerCase() != 'true') {
-        callback([new Error('Response says DisposeHITResult is invalid')]);
+        //console.error('ERROR(alantrrs/mturk--model/hit:135): Reponse was: ', JSON.stringify(response));
+        callback([new Error('Response says DisposeHITResult is invalid: ' + response.DisposeHITResult.Request.Errors.Error.Message)]);
         return;
       }
 
@@ -142,7 +143,7 @@ module.exports = function(config) {
 
   /*
    * Disables specified HIT.
-   * 
+   *
    * @param {hitId} The ID of the HIT to retrieve (String)
    * @param {callback} function with signature (Error error || null, HIT hit)
    *
@@ -151,7 +152,7 @@ module.exports = function(config) {
     var self = this;
 
     request('AWSMechanicalTurkRequester', 'DisableHIT', 'GET', { HITId: hitId }, function(err, response) {
-   
+
       if (err) { callback(err); return; }
 
       if (! HIT.prototype.nodeExists(['DisableHITResult', 'Request', 'IsValid'], response)) { callback([new Error('No "HIT > Request > IsValid" node on the response')]); return; }
@@ -169,7 +170,7 @@ module.exports = function(config) {
    * Retrieves all HITs
    *
    * @param {options.sortProperty} can sort by title | reward | expiration | creationTime. Defaults to "expiration"
-   * @param {options.sortDirection} can sort by Title | Reward | Expiration | CreationTime. Defaults to "Expiration"
+   * @param {options.sortDirection} can sort in Ascending | Descending order. Defaults to "Ascending"
    * @param {options.pageSize} The number of HITs to include in a page of results (int). Defaults to 10. Maximum is 100
    * @param {options.pageNumber} The page of results to return (int). Defaults to 1
    * @param {callback} function with signature (error, int numResults, int totalNumResults, int pageNumber, Array HITs)
@@ -206,7 +207,7 @@ module.exports = function(config) {
 
        if (! HIT.prototype.nodeExists(['SearchHITsResult', 'PageNumber'], response)) { callback([new Error('No "SearchHITsResult > PageNumber" node on the response')]); return; }
        var pageNumber = parseInt(response.SearchHITsResult.PageNumber, 10);
-       
+
        if (! err) {
          responseHits = response.SearchHITsResult.HIT;
          if (responseHits) {
@@ -218,7 +219,7 @@ module.exports = function(config) {
            });
          }
        }
-       callback(err, numResults, totalNumResults, pageNumber, hits);       
+       callback(err, numResults, totalNumResults, pageNumber, hits);
      });
    };
 
@@ -268,7 +269,7 @@ module.exports = function(config) {
   ret.getReviewable = function(options, callback) {
     if (! options) options = {};
     var requestOptions = {
-        HitTypeId    : options.hitTypeId
+        HITTypeId    : options.hitTypeId
       , Status       : options.status
       , SortDirection: options.sortDirection
       , PageSize     : options.pageSize
@@ -366,7 +367,7 @@ module.exports = function(config) {
        return assignment;
      });
 
-     callback(null, numResults, pageNumber, totalNumResults, assignments);
+     callback(null, numResults, totalNumResults, pageNumber, assignments);
    });
   };
 

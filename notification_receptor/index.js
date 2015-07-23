@@ -1,27 +1,29 @@
-module.exports = function(config) {
-  var express         = require('express')
-    , requestVerifier = require('./request_verifier')(config)
-    , requestHandler  = require('./request_handler')
-    , ret;
+module.exports = function (config) {
+  var express = require('express'),
+    requestVerifier = require('./request_verifier')(config),
+    requestHandler = require('./request_handler'),
+    errorhandler = require('errorhandler'),
+    ret;
 
   var receptor = express();
 
-  receptor.use(receptor.router);
-  receptor.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  //receptor.use(receptor.router);
 
   receptor.get('/', requestVerifier, requestHandler);
 
+  receptor.use(errorhandler({ dumpExceptions: true, showStack: true }));
+
   ret = requestHandler.emitter;
 
-  ret.start = function(callback) {
+  ret.start = function (callback) {
     receptor.listen(config.receptor.port, config.receptor.host, callback);
   };
 
-  ret.stop = function() {
+  ret.stop = function () {
     receptor.close();
   };
 
   ret.server = receptor;
-  
+
   return ret;
 }

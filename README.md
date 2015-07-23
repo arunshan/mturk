@@ -1,3 +1,5 @@
+### WARNING:  This repo is currently not being maintained.
+
 # Intro
 
 Amazon Mechanical Turk API wrapper for Node.
@@ -10,7 +12,7 @@ Amazon Mechanical Turk API wrapper for Node.
 
     var mturk = require('mturk');
 
-Check [the API docs](https://github.com/jefftimesten/mturk/blob/master/API.md).
+Check [the API docs](https://github.com/alantrrs/mturk/blob/master/API.md).
 
 # Tests
 
